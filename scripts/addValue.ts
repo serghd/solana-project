@@ -11,9 +11,10 @@ async function main() {
    anchor.setProvider(provider);
 
    const program = new Program(idl, provider);
-   const dataAccount = "AT57fECDNDe4XD9UW8rEjKdwG3z1NREhjsK5meHt8ZXh";
+   const dataAccount = "ESD6ekSwCe6K2qw7a4Qk7AZtG8qPNGC5bzvh4rjkq8zi";
    const itemAccount = Keypair.generate();
 
+   // PDA:
    // const [itemPda] = await PublicKey.findProgramAddress(
    // [
    //    Buffer.from("item"),
@@ -31,7 +32,10 @@ async function main() {
       })
       .signers([itemAccount])
       .rpc();
-   console.log(`Item Account pub-key: ${itemAccount.publicKey.toBase58()}`);
+
+   // localhost, last_value: 7Qf1VJprbFUqfAR8t8otJSEmKAY85SkEvxBHa6N3X2tH
+   console.log(`Item Account: ${itemAccount.publicKey.toBase58()}`);
+   // localhost, last value: 4Mm7t15YkTGjwewk1mc8BurVpRtu35wptg2jKg5hGPFS1BW3MEDJARHPtJbd4BVggyfxBFQ5C4n4Pf8zfKTkoExd
    console.log("✅ Transaction Signature:", txSig);
 }
 

@@ -11,26 +11,17 @@ async function main() {
    anchor.setProvider(provider);
 
    const program = new Program(idl, provider);
-   const securityAccount = "6nBoqRZkP8Nni5uTyVduyQ3fyQjEVSTAQa2yDvtZF8ER";
-
-   let securityTxt: String = "\
-Contact: security@yourdomain.com\n\
-Encryption: https://yourdomain.com/pgp-key.txt\n\
-Acknowledgments: https://yourdomain.com/hall-of-fame.html\n\
-Policy: https://yourdomain.com/security-policy.html\n\
-Hiring: https://yourdomain.com/jobs.html";
-
+   const itemAccount = "7Qf1VJprbFUqfAR8t8otJSEmKAY85SkEvxBHa6N3X2tH";
    const txSig = await program.methods
-      .updateSecurityTxt(securityTxt)
+      .updateValue(new anchor.BN(100600))
       .accounts({
          owner: provider.wallet.publicKey,
-         securityAccount: new PublicKey(securityAccount),
+         itemAccount,
          systemProgram: SystemProgram.programId,
       })
       .rpc();
-   console.log(`Security Account pub-key: ${securityAccount}`);
-
-   // localhost, last value: 26oZQoPKNKwKVK6JvB3ZwAscaHqw4SJRi2J1L8PyYhRSN3eS2APw2yUjUTLh3fFmLqShkjPKks5LrHbzdbstiVHg
+   console.log(`Item Account: ${itemAccount}`);
+   // localhost, last value: 3WEF4ea7NSdfhhUrjVzBfKtBdDob6PhXsbhKmo3w1n2E9TfvynfmudXJHsyt9SESVxcGSnd5a4jAaKKgUm75ymaX
    console.log("✅ Transaction Signature:", txSig);
 }
 

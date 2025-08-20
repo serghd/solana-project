@@ -40,13 +40,23 @@ pub mod solana_project {
 
       data.counter += 1;
 
-      msg!("Value has been added. PDA {}, value {}", item.owner.key().to_string(), value.to_string());
+      msg!("Value has been added. Item owner {}, value {}", item.owner.key().to_string(), value.to_string());
       Ok(())
    }
 
    pub fn get_value(ctx: Context<GetValue>) -> Result<()> {
       let item = &ctx.accounts.item_account;
       msg!("Stored index is {}. Value is: {}", item.index, item.value);
+      Ok(())
+   }
+
+   pub fn update_value(ctx: Context<UpdateValue>, value: u64) -> Result<()> {
+      let item = &mut ctx.accounts.item_account;
+      require!(ctx.accounts.owner.key() == item.owner, ErrorCode::Unauthorized);
+
+      item.value = value;
+
+      msg!("Value has been update. Item owner {}, new value {}", item.owner.key().to_string(), value.to_string());
       Ok(())
    }
 
@@ -57,7 +67,6 @@ pub mod solana_project {
       msg!("Security.txt data updated: {}", security_account.data.to_string());
       Ok(())
    }
-
 }
 
 #[derive(Accounts)]
@@ -75,7 +84,7 @@ pub struct Initialize<'info> {
         payer = owner,
         // descriminator + data + owner
         space = 8 + 520 + 8,
-        seeds = [b"security_txt"],
+        seeds = [b"security_txt_2"],
         bump,
     )]
     pub security_account: Account<'info, SecurityAccount>,
@@ -104,6 +113,21 @@ pub struct AddValue<'info> {
 }
 
 #[derive(Accounts)]
+pub struct GetValue<'info> {
+   pub item_account: Account<'info, ItemAccount>,
+}
+
+#[derive(Accounts)]
+pub struct UpdateValue<'info> {
+   #[account(mut)]
+   pub item_account: Account<'info, ItemAccount>,
+   
+   #[account(mut)]
+   pub owner: Signer<'info>,
+   pub system_program: Program<'info, System>,
+}
+
+#[derive(Accounts)]
 pub struct UpdateSecurity<'info> {
    #[account(mut)]
    pub security_account: Account<'info, SecurityAccount>,
@@ -111,11 +135,6 @@ pub struct UpdateSecurity<'info> {
    #[account(mut)]
    pub owner: Signer<'info>,
    pub system_program: Program<'info, System>,
-}
-
-#[derive(Accounts)]
-pub struct GetValue<'info> {
-   pub item_account: Account<'info, ItemAccount>,
 }
 
 #[account]

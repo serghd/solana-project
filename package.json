@@ -6,6 +6,7 @@
       "initialize": "ts-node ./scripts/initialize.ts",
       "add-value": "ts-node ./scripts/addValue.ts",
       "get-value": "ts-node ./scripts/getValue.ts",
+      "update-value": "ts-node ./scripts/updateValue.ts",
       "update-security-txt": "ts-node ./scripts/updateSecurityTxt.ts",
       "lint:fix": "prettier */*.js \"*/**/*{.js,.ts}\" -w",
       "lint": "prettier */*.js \"*/**/*{.js,.ts}\" --check",

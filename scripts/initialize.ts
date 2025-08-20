@@ -13,7 +13,7 @@ async function main() {
    const program = new Program(idl, provider);
    const dataAccount = Keypair.generate();
    const [securityPda] = PublicKey.findProgramAddressSync(
-      [Buffer.from("security_txt")],
+      [Buffer.from("security_txt_2")],
       program.programId
    );
 
@@ -27,8 +27,12 @@ async function main() {
       })
       .signers([dataAccount])
       .rpc();
-   console.log(`Data Account Owner pub-key: ${dataAccount.publicKey.toBase58()}`);
-   console.log(`Security Account Owner pub-key: ${securityPda.toBase58()}`);
+   
+   // localhsot, last_value: ESD6ekSwCe6K2qw7a4Qk7AZtG8qPNGC5bzvh4rjkq8zi
+   console.log(`Data Account Owner: ${dataAccount.publicKey.toBase58()}`);
+   // localhost, last value: 6nBoqRZkP8Nni5uTyVduyQ3fyQjEVSTAQa2yDvtZF8ER
+   console.log(`Security Account Owner: ${securityPda.toBase58()}`);
+   // localhost, last value: 42hs8ZcfjVV8dgnApvXsk9gHCvj4osijEPnyowEiaa8X4TJd97ekSzWhtcpVaamuVa6VxT5f3uc7tsEAaiU5EjQ5
    console.log("✅ Transaction Signature:", txSig);
 }
 
