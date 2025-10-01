@@ -56,7 +56,17 @@ pub mod solana_project {
 
       item.value = value;
 
-      msg!("Value has been update. Item owner {}, new value {}", item.owner.key().to_string(), value.to_string());
+      msg!("Value has been update. Item owner {}, new value {}", item.owner.key().to_string(), item.value.to_string());
+      Ok(())
+   }
+
+   pub fn reset_value(ctx: Context<ResetValue>) -> Result<()> {
+      let item = &mut ctx.accounts.item_account;
+      require!(ctx.accounts.owner.key() == item.owner, ErrorCode::Unauthorized);
+
+      item.value = 0u64;
+
+      msg!("Value has been reset. Item owner {}, new value {}", item.owner.key().to_string(), item.value.to_string());
       Ok(())
    }
 
@@ -119,6 +129,16 @@ pub struct GetValue<'info> {
 
 #[derive(Accounts)]
 pub struct UpdateValue<'info> {
+   #[account(mut)]
+   pub item_account: Account<'info, ItemAccount>,
+   
+   #[account(mut)]
+   pub owner: Signer<'info>,
+   pub system_program: Program<'info, System>,
+}
+
+#[derive(Accounts)]
+pub struct ResetValue<'info> {
    #[account(mut)]
    pub item_account: Account<'info, ItemAccount>,
    

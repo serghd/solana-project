@@ -28,7 +28,7 @@ async function main() {
       .signers([dataAccount])
       .rpc();
    
-   // localhsot, last_value: ESD6ekSwCe6K2qw7a4Qk7AZtG8qPNGC5bzvh4rjkq8zi
+   // localhost, last_value: ESD6ekSwCe6K2qw7a4Qk7AZtG8qPNGC5bzvh4rjkq8zi
    console.log(`Data Account Owner: ${dataAccount.publicKey.toBase58()}`);
    // localhost, last value: 6nBoqRZkP8Nni5uTyVduyQ3fyQjEVSTAQa2yDvtZF8ER
    console.log(`Security Account Owner: ${securityPda.toBase58()}`);

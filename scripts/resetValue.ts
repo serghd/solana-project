@@ -13,7 +13,7 @@ async function main() {
    const program = new Program(idl, provider);
    const itemAccount = "7Qf1VJprbFUqfAR8t8otJSEmKAY85SkEvxBHa6N3X2tH";
    const txSig = await program.methods
-      .updateValue(new anchor.BN(100300))
+      .resetValue()
       .accounts({
          owner: provider.wallet.publicKey,
          itemAccount,
@@ -21,7 +21,7 @@ async function main() {
       })
       .rpc();
    console.log(`Item Account: ${itemAccount}`);
-   // localhost, last value: 3WEF4ea7NSdfhhUrjVzBfKtBdDob6PhXsbhKmo3w1n2E9TfvynfmudXJHsyt9SESVxcGSnd5a4jAaKKgUm75ymaX
+   // localhost, last value: 4VE6xvX7641BHr7m2CNW2WdbMoavfZvQirHaZeMm71deM4nby7hQqHeLBxCgc5zkF5DCb7MwhEWhxZgqqwCgpCBP
    console.log("✅ Transaction Signature:", txSig);
 }
 

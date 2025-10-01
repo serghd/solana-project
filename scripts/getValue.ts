@@ -11,12 +11,6 @@ async function main() {
    anchor.setProvider(provider);
 
    const program = new Program<SolanaProject>(idl, provider);
-   
-   // security txt account
-   let securityAccountPubKey = "6nBoqRZkP8Nni5uTyVduyQ3fyQjEVSTAQa2yDvtZF8ER";
-
-   // // item account
-   // let itemAccountPubKey = "7Qf1VJprbFUqfAR8t8otJSEmKAY85SkEvxBHa6N3X2tH";
 
    //  1) via transaction
    //  const txSig = await program.methods
@@ -38,16 +32,18 @@ async function main() {
 
    // 2) read the value without a transaction
    
-   // // itemAccount:
-   // const data = await program.account.itemAccount.fetch(itemAccountPubKey);
-   // console.log("Stored index:", data.index.toString());
-   // console.log("Stored value:", data.value.toString());
-   // console.log("Stored owner:", data.owner.toString());
-   
-   // securityAccount:
-   const data = await program.account.securityAccount.fetch(securityAccountPubKey);
-   console.log("Stored data:", data.data.toString());
+   // itemAccount:
+   let itemAccountPubKey = "7Qf1VJprbFUqfAR8t8otJSEmKAY85SkEvxBHa6N3X2tH";
+   const data = await program.account.itemAccount.fetch(itemAccountPubKey);
+   console.log("Stored index:", data.index.toString());
+   console.log("Stored value:", data.value.toString());
    console.log("Stored owner:", data.owner.toString());
+   
+   // // securityAccount:
+   // let securityAccountPubKey = "6nBoqRZkP8Nni5uTyVduyQ3fyQjEVSTAQa2yDvtZF8ER";
+   // const data = await program.account.securityAccount.fetch(securityAccountPubKey);
+   // console.log("Stored data:", data.data.toString());
+   // console.log("Stored owner:", data.owner.toString());
 }
 
 
