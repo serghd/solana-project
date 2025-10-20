@@ -1,19 +1,12 @@
 use anchor_lang::prelude::*;
+use anchor_spl::associated_token::AssociatedToken;
+use anchor_spl::token::spl_token::instruction::AuthorityType;
+use anchor_spl::token::{self, Mint, Token, TokenAccount, Transfer};
 
-declare_id!("FYRdHLXSnHaPXHvn8fzJvuirFsw5sxVLWeGubmWeFkTA");
-
-#[error_code]
-pub enum ErrorCode {
-   #[msg("Undefined Error")]
-   UndefinedError,
-   #[msg("The vector index is out of bounds.")]
-   OutOfBounds,
-   #[msg("You are not authorized to perform this action.")]
-   Unauthorized,
-}
+declare_id!("KBCe2H8VpgPh44QPURqj5uiywx93CG3j1rGtBY3TXLY");
 
 #[program]
-pub mod solana_project {
+pub mod program1 {
    use super::*;
 
    pub fn initialize(ctx: Context<Initialize>) -> Result<()> {
@@ -21,11 +14,7 @@ pub mod solana_project {
       data_account.owner = ctx.accounts.owner.key();
       data_account.counter = 0u64;
 
-      let security_account = &mut ctx.accounts.security_account;
-      security_account.owner = ctx.accounts.owner.key();     
-
       msg!("Data account created: {}", data_account.key().to_string());
-      msg!("Security.txt account created: {}", security_account.key().to_string());
       Ok(())
    }
 
@@ -70,11 +59,38 @@ pub mod solana_project {
       Ok(())
    }
 
-   pub fn update_security_txt(ctx: Context<UpdateSecurity>, security_txt: String) -> Result<()> {
-      let security_account = &mut ctx.accounts.security_account;
-      require!(ctx.accounts.owner.key() == security_account.owner, ErrorCode::Unauthorized);
-      security_account.data = security_txt;
-      msg!("Security.txt data updated: {}", security_account.data.to_string());
+   pub fn mint_tokens(ctx: Context<MintToken>, total_supply: u64) -> Result<()> {
+      require_keys_eq!(ctx.accounts.signer.key(), DEPLOYER_WALLET, ErrorCode::Unauthorized);
+
+      let mint = &ctx.accounts.mint;
+      let token_program = &ctx.accounts.token_program;
+
+      // mint all tokens to Token Owner
+      let cpi_token = CpiContext::new(
+         token_program.to_account_info(),
+         token::MintTo {
+            mint: mint.to_account_info(),
+            to: ctx.accounts.to.to_account_info(),
+            authority: ctx.accounts.signer.to_account_info(),
+         },
+      );
+      token::mint_to(cpi_token, total_supply)?;
+
+      Ok(())
+   }
+
+   pub fn transfer_tokens(ctx: Context<TransferTokens>, amount: u64) -> Result<()> {
+      require_keys_eq!(ctx.accounts.signer.key(), DEPLOYER_WALLET, ErrorCode::Unauthorized);
+      
+      let cpi_accounts = Transfer {
+         from: ctx.accounts.from.to_account_info(),
+         to: ctx.accounts.to.to_account_info(),
+         authority: ctx.accounts.signer.to_account_info(),
+      };
+      let cpi_program = ctx.accounts.token_program.to_account_info();
+      let cpi_ctx = CpiContext::new(cpi_program, cpi_accounts);
+
+      token::transfer(cpi_ctx, amount)?;
       Ok(())
    }
 }
@@ -88,16 +104,6 @@ pub struct Initialize<'info> {
       space = 8 + std::mem::size_of::<Pubkey>() + std::mem::size_of::<u64>())
    ]
    pub data_account: Account<'info, DataAccount>,
-
-   #[account(
-        init,
-        payer = owner,
-        // descriminator + data + owner
-        space = 8 + 520 + 8,
-        seeds = [b"security_txt_2"],
-        bump,
-    )]
-    pub security_account: Account<'info, SecurityAccount>,
 
    #[account(mut)]
    pub owner: Signer<'info>,
@@ -148,13 +154,32 @@ pub struct ResetValue<'info> {
 }
 
 #[derive(Accounts)]
-pub struct UpdateSecurity<'info> {
+pub struct MintToken<'info> {
    #[account(mut)]
-   pub security_account: Account<'info, SecurityAccount>,
-  
+   pub signer: Signer<'info>,
+
    #[account(mut)]
-   pub owner: Signer<'info>,
+   pub mint: Account<'info, Mint>,
+
+   #[account(mut)]
+   pub to: Account<'info, TokenAccount>,
+
+   pub token_program: Program<'info, Token>,
    pub system_program: Program<'info, System>,
+}
+
+#[derive(Accounts)]
+pub struct TransferTokens<'info> {
+   #[account(mut)]
+   pub signer: Signer<'info>,
+
+   #[account(mut)]
+   pub from: Account<'info, TokenAccount>,
+
+   #[account(mut)]
+   pub to: Account<'info, TokenAccount>,
+
+   pub token_program: Program<'info, Token>,
 }
 
 #[account]
@@ -171,7 +196,22 @@ pub struct ItemAccount {
 }
 
 #[account]
-pub struct SecurityAccount {
-   pub data: String,
-   pub owner: Pubkey,
+pub struct PdaData {
+   pub authority: Pubkey,
+   pub bump: u8,
+}
+
+pub static DEPLOYER_WALLET: Pubkey = Pubkey::new_from_array([
+   216, 92, 65, 244, 142, 169, 55, 135, 113, 86, 119, 243, 161, 196, 241, 32, 169, 63, 99, 222,
+   194, 16, 45, 27, 67, 8, 202, 50, 68, 42, 73, 204,
+]);
+
+#[error_code]
+pub enum ErrorCode {
+   #[msg("Undefined Error")]
+   UndefinedError,
+   #[msg("The vector index is out of bounds.")]
+   OutOfBounds,
+   #[msg("You are not authorized to perform this action.")]
+   Unauthorized,
 }

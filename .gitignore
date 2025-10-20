@@ -3,5 +3,6 @@
 target
 **/*.rs.bk
 node_modules
+keypairs
 .yarn
 .env

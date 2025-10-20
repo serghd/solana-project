@@ -1,20 +1,27 @@
 {
    "license": "ISC",
    "scripts": {
-      "build": "anchor build",
-      "deploy": "anchor build && solana program deploy --max-len 500000 target/deploy/solana_project.so",
-      "initialize": "ts-node ./scripts/initialize.ts",
-      "add-value": "ts-node ./scripts/addValue.ts",
-      "get-value": "ts-node ./scripts/getValue.ts",
-      "update-value": "ts-node ./scripts/updateValue.ts",
-      "reset-value": "ts-node ./scripts/resetValue.ts",
-      "update-security-txt": "ts-node ./scripts/updateSecurityTxt.ts",
+      "program1-build": "anchor build --program-name program1",
+      "program2-build": "anchor build --program-name program2",
+      "program1-deploy": "solana program deploy --max-len 1000000 ./target/deploy/program1.so --program-id ./keypairs/program-keypair1.json",
+      "program2-deploy": "solana program deploy --max-len 1000000 ./target/deploy/program2.so --program-id ./keypairs/program-keypair2.json",
+      "program1-initialize": "ts-node ./scripts/program1Initialize.ts",
+      "program1-add-value": "ts-node ./scripts/program1AddValue.ts",
+      "program1-get-value": "ts-node ./scripts/program1GetValue.ts",
+      "program1-update-value": "ts-node ./scripts/program1UpdateValue.ts",
+      "program1-reset-value": "ts-node ./scripts/program1ResetValue.ts",
+      "program1-create-token": "ts-node ./scripts/program1CreateToken.ts",
+      "program1-create-ata-account": "ts-node ./scripts/program1CreateAtaAccount.ts",
+      "program1-mint-tokens": "ts-node ./scripts/program1MintTokens.ts",
+      "program1-transfer-tokens": "ts-node ./scripts/program1TransferTokens.ts",
+      "program2-call-transfer-tokens": "ts-node ./scripts/program2CallTransferTokens.ts",
       "lint:fix": "prettier */*.js \"*/**/*{.js,.ts}\" -w",
       "lint": "prettier */*.js \"*/**/*{.js,.ts}\" --check",
       "format": "prettier --config ./.prettierrc.yml --write \"**/*.{js,json,md,sol,ts,yml}\" && cargo fmt"
    },
    "dependencies": {
       "@coral-xyz/anchor": "0.31.1",
+      "@solana/spl-token": "0.4.14",
       "dotenv": "17.2.1"
    },
    "devDependencies": {
