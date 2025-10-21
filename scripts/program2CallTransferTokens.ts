@@ -15,7 +15,7 @@ async function main() {
    if (!signer) return;
 
    const fromAta = new PublicKey(process.env.OWNER_ATA as string);
-   const toAta = new PublicKey("C2ehWA83EEffs1gbUYnvPVarUuai23k6ZAH1yQ5Y7KAT");
+   const to = new PublicKey("GCzdxYntjzcAxjTykr7J6aAMmA4LmxwYB3ikcWkoxcz8"); // ATA
    const program1 = new PublicKey("KBCe2H8VpgPh44QPURqj5uiywx93CG3j1rGtBY3TXLY");
 
    const tx = await program.methods
@@ -23,8 +23,8 @@ async function main() {
       .accounts({
          signer: signer.publicKey,
          from: fromAta,
-         to: toAta,
-         program1_program: program1,
+         to,
+         program1Program: program1,
          tokenProgram: TOKEN_PROGRAM_ID
       })
       .signers([signer])

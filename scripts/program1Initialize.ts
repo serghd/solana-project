@@ -9,6 +9,8 @@ dotenv.config();
 async function main() {
    const provider = anchor.AnchorProvider.env();
    anchor.setProvider(provider);
+   const signer = provider.wallet.payer;
+   if (!signer) return;
 
    const program = new Program(idl, provider);
    const dataAccount = Keypair.generate();
@@ -16,16 +18,16 @@ async function main() {
    const txSig = await program.methods
       .initialize()
       .accounts({
-         owner: provider.wallet.publicKey,
+         signer: signer.publicKey,
          dataAccount: dataAccount.publicKey,
          systemProgram: SystemProgram.programId,
       })
-      .signers([dataAccount])
+      .signers([signer, dataAccount])
       .rpc();
-   
-   // localhost, last_value: ESD6ekSwCe6K2qw7a4Qk7AZtG8qPNGC5bzvh4rjkq8zi
+
+   // localhost, last_value: F2Wdo5xYgoJJhdr9EUK3uw8aZi1WPxoBAiLYzsxe59bL
    console.log(`Data Account Owner: ${dataAccount.publicKey.toBase58()}`);
-   // localhost, last value: 42hs8ZcfjVV8dgnApvXsk9gHCvj4osijEPnyowEiaa8X4TJd97ekSzWhtcpVaamuVa6VxT5f3uc7tsEAaiU5EjQ5
+   // localhost, last value: 4vcAjDKCAHwH7SVSkAerbihJxYRRttM7fLuP42FVFyiQ6W3d72hcjJT1kdJuL4m9TbJDckHXct1uX8YJdjBXZQ1i
    console.log("✅ Transaction Signature:", txSig);
 }
 

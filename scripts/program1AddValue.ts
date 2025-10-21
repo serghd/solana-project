@@ -1,6 +1,6 @@
 import * as anchor from "@coral-xyz/anchor";
 import { Program } from "@coral-xyz/anchor";
-import idl from "../target/idl/solana_project.json";
+import idl from "../target/idl/program1.json";
 import { Keypair, SystemProgram } from "@solana/web3.js";
 import * as dotenv from "dotenv";
 
@@ -9,33 +9,27 @@ dotenv.config();
 async function main() {
    const provider = anchor.AnchorProvider.env();
    anchor.setProvider(provider);
+   const signer = provider.wallet.payer;
+   if (!signer) return;
 
    const program = new Program(idl, provider);
-   const dataAccount = "ESD6ekSwCe6K2qw7a4Qk7AZtG8qPNGC5bzvh4rjkq8zi";
+   const dataAccount = "F2Wdo5xYgoJJhdr9EUK3uw8aZi1WPxoBAiLYzsxe59bL";
    const itemAccount = Keypair.generate();
-
-   // PDA:
-   // const [itemPda] = await PublicKey.findProgramAddress(
-   // [
-   //    Buffer.from("item"),
-   //    dataAccount.publicKey.toBuffer(),
-   //    new BN(index).toArrayLike(Buffer, "le", 8),
-   // ],program.programId);
 
    const txSig = await program.methods
       .addValue(new anchor.BN(100500))
       .accounts({
-         owner: provider.wallet.publicKey,
+         signer: signer.publicKey,
          dataAccount,
          itemAccount: itemAccount.publicKey,
          systemProgram: SystemProgram.programId,
       })
-      .signers([itemAccount])
+      .signers([signer, itemAccount])
       .rpc();
 
-   // localhost, last_value: 7Qf1VJprbFUqfAR8t8otJSEmKAY85SkEvxBHa6N3X2tH
+   // localhost, last_value: 7ncDmk3iajdJftkHUwJ2k5VfMHyDzu5ZKGAz3SFnv1qA
    console.log(`Item Account: ${itemAccount.publicKey.toBase58()}`);
-   // localhost, last value: 4Mm7t15YkTGjwewk1mc8BurVpRtu35wptg2jKg5hGPFS1BW3MEDJARHPtJbd4BVggyfxBFQ5C4n4Pf8zfKTkoExd
+   // localhost, last value: VcmGUETSpU3j1EdsFuiaMCZ9qHXAnttgj3MR6xAugFQAaPzhSCd6aCCDWDRQJEk6wDUuo3eEsbfm9mFAU4NGcwP
    console.log("✅ Transaction Signature:", txSig);
 }
 
