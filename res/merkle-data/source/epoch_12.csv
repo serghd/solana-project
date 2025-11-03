@@ -1,0 +1,3 @@
+version,epoch_id,event_id,user_pubkey,amount_user,referrer_pubkey,amount_ref,amount_vip,expire_at_unix,partner_id,tracking_tag
+1,12,key-20-order-0001,FZaf3F5Gt8z9CWepVodfPr1P7HwpKPdNTPKm2trmLaGj,500000,2YGSxPWkxan1KvNJreer33AFErwpRLhL55Fvka1mpgdb,200000,100000,1760000000,1,key-20
+1,12,key-20-order-0002,2YGSxPWkxan1KvNJreer33AFErwpRLhL55Fvka1mpgdb,700000,2AppLfAT17DWFAoqH29q2BwJfUrPuiUNRbowv4nkFUKp,0,0,1760000000,1,key-20

@@ -13,7 +13,7 @@ async function main() {
    const program = new anchor.Program(idl, provider);
    const signer = provider.wallet.payer;
    if (!signer) return;
-  
+
    // // create new ATA
    // const mint = new PublicKey(process.env.BAM_TOKEN_MINT as string);
    // const acc = Keypair.generate();
@@ -29,7 +29,7 @@ async function main() {
          signer: signer.publicKey,
          from,
          to,
-         tokenProgram: TOKEN_PROGRAM_ID
+         tokenProgram: TOKEN_PROGRAM_ID,
       })
       .signers([signer])
       .rpc();

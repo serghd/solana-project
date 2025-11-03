@@ -1,9 +1,7 @@
 import * as dotenv from "dotenv";
 import * as anchor from "@coral-xyz/anchor";
 import idl from "../target/idl/program1.json";
-import {
-   TOKEN_PROGRAM_ID,
-} from "@solana/spl-token";
+import { TOKEN_PROGRAM_ID } from "@solana/spl-token";
 import { PublicKey } from "@solana/web3.js";
 import { utils } from "../misc/utils";
 
@@ -33,11 +31,7 @@ async function main() {
       utils.logAligned("✅ 'mintTokens' signature:", tx);
    }
 
-   utils.logAligned(
-      "Mint to:",
-      `ATA: ${toAta.toBase58()}, Authority: ${signer.publicKey}`,
-      23,
-   );
+   utils.logAligned("Mint to:", `ATA: ${toAta.toBase58()}, Authority: ${signer.publicKey}`, 23);
 }
 
 main().catch((err) => {

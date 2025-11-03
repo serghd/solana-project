@@ -47,7 +47,6 @@ async function main() {
    // console.log("Stored owner:", data.owner.toString());
 }
 
-
 main().catch((err) => {
    console.error(err);
    process.exit(1);

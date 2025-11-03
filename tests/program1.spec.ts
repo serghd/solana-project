@@ -24,6 +24,4 @@ describe("Program1", () => {
          .signers([signer, dataAccount])
          .rpc();
    });
-
-
 });

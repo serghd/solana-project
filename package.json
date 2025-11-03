@@ -17,7 +17,10 @@
       "program1-mint-tokens": "ts-node ./scripts/program1MintTokens.ts",
       "program1-transfer-tokens": "ts-node ./scripts/program1TransferTokens.ts",
       "program2-call-transfer-tokens": "ts-node ./scripts/program2CallTransferTokens.ts",
-      "transaction-logs": "ts-node ./scripts/transactionLogs.ts",
+      "program1-build-merkle-tree": "ts-node ./scripts/merkle-tree/program1BuildMerkleTree.ts",
+      "program1-create-epoch": "ts-node ./scripts/merkle-tree/program1CreateEpoch.ts",
+      "program1-verify-merkle-tree": "ts-node ./scripts/merkle-tree/program1VerifyMerkleTree.ts",
+      "get-transaction": "ts-node ./scripts/getTransaction.ts",
       "test": "anchor test",
       "lint:fix": "prettier */*.js \"*/**/*{.js,.ts}\" -w",
       "lint": "prettier */*.js \"*/**/*{.js,.ts}\" --check",
@@ -25,8 +28,12 @@
    },
    "dependencies": {
       "@coral-xyz/anchor": "0.31.1",
+      "@ethersproject/abi": "5.8.0",
       "@solana/spl-token": "0.4.14",
-      "dotenv": "17.2.1"
+      "csv-parse": "6.1.0",
+      "dotenv": "17.2.1",
+      "keccak256": "1.0.6",
+      "merkletreejs": "0.2.0"
    },
    "devDependencies": {
       "@types/bn.js": "5.2.0",

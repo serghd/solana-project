@@ -9,6 +9,14 @@ crate-type = ["cdylib", "lib"]
 name = "program2"
 
 [features]
+default = []
+anchor-debug = []
+no-idl = []
+no-log-ix-name = []
+no-entrypoint = []
+custom-panic = []
+custom-heap = []
+cpi = []
 idl-build = ["anchor-lang/idl-build", "anchor-spl/idl-build"]
 
 [dependencies]

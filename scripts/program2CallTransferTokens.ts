@@ -25,7 +25,7 @@ async function main() {
          from: fromAta,
          to,
          program1Program: program1,
-         tokenProgram: TOKEN_PROGRAM_ID
+         tokenProgram: TOKEN_PROGRAM_ID,
       })
       .signers([signer])
       .rpc();

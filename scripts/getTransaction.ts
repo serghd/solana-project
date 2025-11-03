@@ -27,7 +27,7 @@ async function main() {
    anchor.setProvider(provider);
    await printTxLogs(
       provider,
-      "Ze1eGjUiomFuNgDytrFcXbCDG91URzrxze7tGpgqb3ehS6sZMmE8FUmfrtTw2vWBinYvYeQQ4gohEvRbi6DHcGM",
+      "i1qYW1dH2ZQ1JZ1Wb9yAAXjpKxTsJQyoZkxoyV1ShB2KUg1aHQ6ramzUGLF6Q2wxVaDAJKyda7hYFqKhLgxHFXn",
    );
 }
 
