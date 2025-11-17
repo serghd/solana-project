@@ -1,12 +1,13 @@
 use anchor_lang::prelude::*;
-use anchor_spl::associated_token::AssociatedToken;
-use anchor_spl::token::spl_token::instruction::AuthorityType;
 use anchor_spl::token::{self, Mint, Token, TokenAccount, Transfer};
 
 mod state;
 
 use state::accounts::{BitmapAccount, EpochAccount};
 use state::leaf_payload::{hash_leaf, verify_merkle, LeafPayload};
+
+#[allow(unused_imports)]
+use security_info::security_txt;
 
 declare_id!("KBCe2H8VpgPh44QPURqj5uiywx93CG3j1rGtBY3TXLY");
 

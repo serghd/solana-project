@@ -1,0 +1,7 @@
+[package]
+name = "security_info"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+solana-security-txt = "1.1.1"

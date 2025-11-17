@@ -1,7 +1,12 @@
+#![allow(unexpected_cfgs)]
+
 use anchor_lang::prelude::*;
-use anchor_spl::token::{self, Token, TokenAccount};
+use anchor_spl::token::{Token, TokenAccount};
 use program1::cpi::accounts::TransferTokens as Program1Tokens;
 use program1::program::Program1;
+
+#[allow(unused_imports)]
+use security_info::security_txt;
 
 declare_id!("572U58pCWdwqk3NF2qjsmsHmeUmLtNokt3ZgJLbaNeib");
 

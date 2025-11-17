@@ -13,13 +13,15 @@ default = []
 anchor-debug = []
 no-idl = []
 no-log-ix-name = []
-no-entrypoint = []
 custom-panic = []
 custom-heap = []
+no-entrypoint = []
 cpi = []
 idl-build = ["anchor-lang/idl-build", "anchor-spl/idl-build"]
 
 [dependencies]
-anchor-lang = { version = "0.31.1" }
-anchor-spl = "0.31.1"
+anchor-lang = { version = "0.32.0" }
+anchor-spl = "0.32.0"
 program1 = { path = "../program1", features = ["cpi"] }
+security_info = { path = "../../libs/security_info" }
+

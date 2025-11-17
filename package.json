@@ -4,11 +4,11 @@
    "description": "",
    "license": "MIT",
    "scripts": {
-      "program1-build": "anchor build --program-name program1",
-      "program2-build": "anchor build --program-name program2",
-      "program1-deploy": "solana program deploy --max-len 1000000 ./target/deploy/program1.so --program-id ./keypairs/program-keypair1.json",
-      "program2-deploy": "solana program deploy --max-len 1000000 ./target/deploy/program2.so --program-id ./keypairs/program-keypair2.json",
-      "program1-initialize": "ts-node ./scripts/program1Initialize.ts",
+      "build-program1": "anchor build --program-name program1",
+      "build-program2": "anchor build --program-name program2",
+      "deploy-program1": "solana program deploy --max-len 1000000 ./target/deploy/program1.so --program-id ./keypairs/program-keypair1.json",
+      "deploy-program2": "solana program deploy --max-len 1000000 ./target/deploy/program2.so --program-id ./keypairs/program-keypair2.json",
+      "initialize-program1": "ts-node ./scripts/program1Initialize.ts",
       "program1-add-value": "ts-node ./scripts/program1AddValue.ts",
       "program1-update-value": "ts-node ./scripts/program1UpdateValue.ts",
       "program1-get-value": "ts-node ./scripts/program1GetValue.ts",
@@ -24,10 +24,11 @@
       "test": "anchor test",
       "lint:fix": "prettier */*.js \"*/**/*{.js,.ts}\" -w",
       "lint": "prettier */*.js \"*/**/*{.js,.ts}\" --check",
-      "format": "prettier --config ./.prettierrc.yml --write \"**/*.{js,json,md,sol,ts,yml}\" && cargo fmt"
+      "format": "prettier --config ./.prettierrc.yml --write \"**/*.{js,json,md,sol,ts,yml}\" && cargo fmt",
+      "clean": "anchor clean"
    },
    "dependencies": {
-      "@coral-xyz/anchor": "0.31.1",
+      "@coral-xyz/anchor": "0.32.0",
       "@ethersproject/abi": "5.8.0",
       "@solana/spl-token": "0.4.14",
       "csv-parse": "6.1.0",
