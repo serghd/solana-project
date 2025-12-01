@@ -1,5 +1,5 @@
 import * as anchor from "@coral-xyz/anchor";
-import idl from "../target/idl/program2.json";
+import idlProgram2 from "../target/idl/program2.json";
 import { TOKEN_PROGRAM_ID } from "@solana/spl-token";
 import { PublicKey } from "@solana/web3.js";
 import * as dotenv from "dotenv";
@@ -10,7 +10,7 @@ dotenv.config();
 async function main() {
    const provider = anchor.AnchorProvider.env();
    anchor.setProvider(provider);
-   const program = new anchor.Program(idl, provider);
+   const program2 = new anchor.Program(idlProgram2, provider);
    const signer = provider.wallet.payer;
    if (!signer) return;
 
@@ -18,7 +18,7 @@ async function main() {
    const to = new PublicKey("GCzdxYntjzcAxjTykr7J6aAMmA4LmxwYB3ikcWkoxcz8"); // ATA
    const program1 = new PublicKey("KBCe2H8VpgPh44QPURqj5uiywx93CG3j1rGtBY3TXLY");
 
-   const tx = await program.methods
+   const tx = await program2.methods
       .callTransfer(utils.toTokenAmount(1, 9))
       .accounts({
          signer: signer.publicKey,

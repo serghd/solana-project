@@ -1,41 +1,37 @@
 {
-  "root": "a22dd6178ae99e60dbf50f02f79d6a5797f1d4d8ce47b2334e90e0726c54c696",
-  "leafs": [
-    {
-      "version": 1,
-      "epoch_id": 12,
-      "event_id": "key-20-order-0001",
-      "user_pubkey": "FZaf3F5Gt8z9CWepVodfPr1P7HwpKPdNTPKm2trmLaGj",
-      "amount_user": 500000,
-      "referrer_pubkey": "2YGSxPWkxan1KvNJreer33AFErwpRLhL55Fvka1mpgdb",
-      "amount_ref": 200000,
-      "amount_vip": 100000,
-      "expire_at_unix": 1760000000,
-      "partner_id": 1,
-      "tracking_tag": "key-20",
-      "index": 0,
-      "hash": "ed1ba0958bb60cd0d808e5f41606e6709b55f658cd35e7f056a33586dcd2615f",
-      "proof": [
-        "163330900337d92a01042f750dedd33ebbe9110672f74da9913d14da367d263b"
-      ]
-    },
-    {
-      "version": 1,
-      "epoch_id": 12,
-      "event_id": "key-20-order-0002",
-      "user_pubkey": "2YGSxPWkxan1KvNJreer33AFErwpRLhL55Fvka1mpgdb",
-      "amount_user": 700000,
-      "referrer_pubkey": "2AppLfAT17DWFAoqH29q2BwJfUrPuiUNRbowv4nkFUKp",
-      "amount_ref": 0,
-      "amount_vip": 0,
-      "expire_at_unix": 1760000000,
-      "partner_id": 1,
-      "tracking_tag": "key-20",
-      "index": 1,
-      "hash": "163330900337d92a01042f750dedd33ebbe9110672f74da9913d14da367d263b",
-      "proof": [
-        "ed1ba0958bb60cd0d808e5f41606e6709b55f658cd35e7f056a33586dcd2615f"
-      ]
-    }
-  ]
+   "root": "a22dd6178ae99e60dbf50f02f79d6a5797f1d4d8ce47b2334e90e0726c54c696",
+   "leafs": [
+      {
+         "version": 1,
+         "epoch_id": 12,
+         "event_id": "key-20-order-0001",
+         "user_pubkey": "FZaf3F5Gt8z9CWepVodfPr1P7HwpKPdNTPKm2trmLaGj",
+         "amount_user": 500000,
+         "referrer_pubkey": "2YGSxPWkxan1KvNJreer33AFErwpRLhL55Fvka1mpgdb",
+         "amount_ref": 200000,
+         "amount_vip": 100000,
+         "expire_at_unix": 1760000000,
+         "partner_id": 1,
+         "tracking_tag": "key-20",
+         "index": 0,
+         "hash": "ed1ba0958bb60cd0d808e5f41606e6709b55f658cd35e7f056a33586dcd2615f",
+         "proof": ["163330900337d92a01042f750dedd33ebbe9110672f74da9913d14da367d263b"]
+      },
+      {
+         "version": 1,
+         "epoch_id": 12,
+         "event_id": "key-20-order-0002",
+         "user_pubkey": "2YGSxPWkxan1KvNJreer33AFErwpRLhL55Fvka1mpgdb",
+         "amount_user": 700000,
+         "referrer_pubkey": "2AppLfAT17DWFAoqH29q2BwJfUrPuiUNRbowv4nkFUKp",
+         "amount_ref": 0,
+         "amount_vip": 0,
+         "expire_at_unix": 1760000000,
+         "partner_id": 1,
+         "tracking_tag": "key-20",
+         "index": 1,
+         "hash": "163330900337d92a01042f750dedd33ebbe9110672f74da9913d14da367d263b",
+         "proof": ["ed1ba0958bb60cd0d808e5f41606e6709b55f658cd35e7f056a33586dcd2615f"]
+      }
+   ]
 }

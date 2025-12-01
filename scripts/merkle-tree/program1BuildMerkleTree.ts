@@ -61,16 +61,18 @@ async function main() {
 
    /***** SAVE THE TREE TO THE FILE *****/
 
-   const leafsWithProofs: LeafPayload[] = leafsRaw.map((leaf, idx) => {
-      const leafHash = leafs[idx].toString("hex");
-      const proof = tree.getProof(leafs[idx]).map((p) => p.data.toString("hex"));
-      return {
-         ...leaf,
-         index: idx,
-         hash: leafHash,
-         proof,
-      };
-   });
+   const leafsWithProofs: LeafPayload[] = leafsRaw.map(
+      (leaf: LeafPayload, idx: number): LeafPayload => {
+         const leafHash = leafs[idx].toString("hex");
+         const proof = tree.getProof(leafs[idx]).map((p) => p.data.toString("hex"));
+         return {
+            ...leaf,
+            index: idx,
+            hash: leafHash,
+            proof,
+         };
+      },
+   );
 
    const outputData = {
       root: tree.getRoot().toString("hex"),

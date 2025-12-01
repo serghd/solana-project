@@ -124,21 +124,20 @@ pub mod program1 {
       let leaf = hash_leaf(&payload);
 
       // DEBUG: -----------------------
-      msg!("!!!!!!!!! root: {}", hex::encode(merkle_root));
-      msg!("!!!!!!!!! leaf: {}", hex::encode(leaf));
+      //msg!("!!!!!!!!! root: {}", hex::encode(merkle_root));
+      //msg!("!!!!!!!!! leaf: {}", hex::encode(leaf));
+      // for (i, sib) in proof.iter().enumerate() {
+      //    msg!("!!!!!!!!! proof[{}]: {}", i, hex::encode(sib));
+      // }
 
-      for (i, sib) in proof.iter().enumerate() {
-         msg!("!!!!!!!!! proof[{}]: {}", i, hex::encode(sib));
-      }
-      let verified = verify_merkle(leaf, &proof, merkle_root);
-      msg!("!!!!!!!!! verify_merkle result: {}", verified);
+      // let verified = verify_merkle(leaf, &proof, merkle_root);
+      // msg!("!!!!! verify_merkle result: {}", verified);
       // ------------------------------
 
       require!(verify_merkle(leaf, &proof, merkle_root), ErrorCode::InvalidProof);
 
       Ok(())
    }
-
 }
 
 #[derive(Accounts)]

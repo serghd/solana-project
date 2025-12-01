@@ -47,5 +47,5 @@ export const utils = {
    toTokenAmount,
    logAligned,
    loadLeafsFromCSV,
-   u64ToBufferLE
+   u64ToBufferLE,
 };
