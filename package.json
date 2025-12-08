@@ -20,6 +20,8 @@
       "program1-build-merkle-tree": "ts-node ./scripts/merkle-tree/program1BuildMerkleTree.ts",
       "program1-create-epoch": "ts-node ./scripts/merkle-tree/program1CreateEpoch.ts",
       "program1-verify-merkle-tree": "ts-node ./scripts/merkle-tree/program1VerifyMerkleTree.ts",
+      "program2-create-account": "ts-node ./scripts/program2CreateAccount.ts",
+      "program2-burn-account": "ts-node ./scripts/program2BurnAccount.ts",
       "get-transaction": "ts-node ./scripts/getTransaction.ts",
       "test": "anchor test",
       "lint:fix": "prettier */*.js \"*/**/*{.js,.ts}\" -w",

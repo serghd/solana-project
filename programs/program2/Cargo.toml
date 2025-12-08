@@ -20,7 +20,8 @@ cpi = []
 idl-build = ["anchor-lang/idl-build", "anchor-spl/idl-build"]
 
 [dependencies]
-anchor-lang = { version = "0.32.0" }
+anchor-lang = { version = "0.32.0", features = ["init-if-needed"] }
+
 anchor-spl = "0.32.0"
 program1 = { path = "../program1", features = ["cpi"] }
 security_info = { path = "../../libs/security_info" }

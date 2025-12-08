@@ -15,7 +15,6 @@ dotenv.config();
 async function main() {
    const provider = anchor.AnchorProvider.env();
    anchor.setProvider(provider);
-   const program = new anchor.Program(idl, provider);
    const signer = provider.wallet.payer;
    if (!signer) return;
 
