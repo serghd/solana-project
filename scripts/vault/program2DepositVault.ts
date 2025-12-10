@@ -1,8 +1,7 @@
 import * as anchor from "@coral-xyz/anchor";
 import { Program } from "@coral-xyz/anchor";
-import idlProgram2 from "../target/idl/program2.json";
+import idl from "../../target/idl/program2.json";
 import { PublicKey } from "@solana/web3.js";
-
 import * as dotenv from "dotenv";
 
 dotenv.config();
@@ -13,19 +12,21 @@ async function main() {
    const signer = provider.wallet.payer;
    if (!signer) return;
 
-   const program2 = new Program(idlProgram2, provider);
-   const accountPda = new PublicKey("7S8mQLUFHEgARionYY3XXim7Ndie92i3DBRcFSLnrdR2");
+   const program2 = new Program(idl, provider);
+   
+   const amount: number = 10;
+   const vaultPda = new PublicKey("DqUND9Jwu6CVLkciDZ2JTHYchD3QXoKVsChhyLPjZdpT");
 
    const txSig = await program2.methods
-      .burnAccount()
+      .createVault(new anchor.BN(amount))
       .accounts({
          signer: signer.publicKey,
-         accountPda
+         vaultPda
       })
       .signers([signer])
       .rpc();
 
-   // localhost, last value: VcmGUETSpU3j1EdsFuiaMCZ9qHXAnttgj3MR6xAugFQAaPzhSCd6aCCDWDRQJEk6wDUuo3eEsbfm9mFAU4NGcwP
+   // localhost, last value: 4kAm17s3ud4J1gK26V3YqFC1eJ27g976Ecp1wFZwuC1cvTGLKR9HixEDqWQ5GahzZRd1vYqcUPTXbuW3eJbB5Crd
    console.log("✅ Transaction Signature:", txSig);
 }
 

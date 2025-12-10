@@ -1,6 +1,7 @@
 #![allow(unexpected_cfgs)]
 
 use anchor_lang::prelude::*;
+use anchor_lang::solana_program;
 use anchor_spl::token::{Token, TokenAccount};
 use program1::cpi::accounts::TransferTokens as Program1Tokens;
 use program1::program::Program1;
@@ -44,6 +45,44 @@ pub mod program2 {
 
       Ok(())
    }
+
+   pub fn create_vault(ctx: Context<CreateVault>, unlock_timestamp: i64) -> Result<()> {
+      let vault = &mut ctx.accounts.vault_pda;
+      vault.owner = ctx.accounts.signer.key();
+      vault.unlock_timestamp = unlock_timestamp;
+      vault.bump = ctx.bumps.vault_pda;
+
+      Ok(())
+   }
+
+   pub fn deposit_vault(ctx: Context<DepositVault>, amount: u64) -> Result<()> {
+      let ix = system_instruction::transfer(
+         &ctx.accounts.signer.key(),
+         &ctx.accounts.vault_pda.key(),
+         amount,
+      );
+
+      solana_program::program::invoke(
+         &ix,
+         &[ctx.accounts.signer.to_account_info(), ctx.accounts.vault_pda.to_account_info()],
+      )?;
+
+      Ok(())
+   }
+
+   pub fn withdraw_vault(ctx: Context<WithdrawVault>) -> Result<()> {
+      let vault = &ctx.accounts.vault_pda;
+
+      let clock = Clock::get()?;
+      require!(clock.unix_timestamp >= vault.unlock_timestamp, ErrorCode::VaultLocked);
+
+      let amount = **vault.to_account_info().lamports.borrow();
+
+      **vault.to_account_info().try_borrow_mut_lamports()? -= amount;
+      **ctx.accounts.signer.try_borrow_mut_lamports()? += amount;
+
+      Ok(())
+   }
 }
 
 #[derive(Accounts)]
@@ -68,11 +107,11 @@ pub struct CreateAccount<'info> {
    #[account(
         init_if_needed,
         payer = signer,
-        space = 8 + DataAccount::INIT_SPACE,
+        space = 8 + AccountData::INIT_SPACE,
         seeds = [b"account-pda"],
         bump
     )]
-   pub account_pda: Account<'info, DataAccount>,
+   pub account_pda: Account<'info, AccountData>,
 
    pub system_program: Program<'info, System>,
 }
@@ -86,14 +125,65 @@ pub struct BurnAccount<'info> {
         mut,
         close = signer
     )]
-   pub account_pda: Account<'info, DataAccount>,
+   pub account_pda: Account<'info, AccountData>,
+}
+
+#[derive(Accounts)]
+pub struct CreateVault<'info> {
+   #[account(mut)]
+   pub signer: Signer<'info>,
+
+   #[account(
+        init_if_needed,
+        payer = signer,
+        space = 8 + VaultData::INIT_SPACE,
+        seeds = [b"vault", signer.key().as_ref()],
+        bump
+    )]
+   pub vault_pda: Account<'info, VaultData>,
+
    pub system_program: Program<'info, System>,
+}
+
+#[derive(Accounts)]
+pub struct DepositVault<'info> {
+   #[account(mut)]
+   pub signer: Signer<'info>,
+
+   #[account(mut,
+        seeds = [b"vault", signer.key().as_ref()],
+        bump = vault_pda.bump,
+        constraint = vault_pda.owner == signer.key()
+    )]
+   pub vault_pda: Account<'info, VaultData>,
+}
+
+#[derive(Accounts)]
+pub struct WithdrawVault<'info> {
+   #[account(mut)]
+   pub signer: Signer<'info>,
+
+   #[account(
+        mut,
+        seeds = [b"vault", signer.key().as_ref()],
+        bump = vault_pda.bump,
+        constraint = vault_pda.owner == signer.key()
+    )]
+   pub vault_pda: Account<'info, VaultData>,
 }
 
 #[account]
 #[derive(InitSpace)]
-pub struct DataAccount {
+pub struct AccountData {
    pub authority: Pubkey,
+   pub bump: u8,
+}
+
+#[account]
+#[derive(InitSpace)]
+pub struct VaultData {
+   pub owner: Pubkey,
+   pub unlock_timestamp: i64,
    pub bump: u8,
 }
 
@@ -101,4 +191,6 @@ pub struct DataAccount {
 pub enum ErrorCode {
    #[msg("You are not authorized to perform this action.")]
    Unauthorized,
+   #[msg("Vault is still locked")]
+   VaultLocked,
 }
